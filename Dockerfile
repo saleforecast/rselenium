@@ -3,11 +3,14 @@ FROM rocker/shiny:4
 
 # Install R packages required 
 # Change the packages list to suit your needs
-RUN R -e "install.packages(c('shiny', 'wdman', 'RSelenium', 'netstat', 'httr'), dependencies=TRUE)"
+RUN R -e "install.packages(c('shiny', 'wdman', 'RSelenium', 'httr'), dependencies=TRUE)"
+
+# Install net-tools package for netstat
+RUN apt-get update && \
+    apt-get install -y net-tools
 
 # Install Selenium and Chrome dependencies
-RUN apt-get update && \
-    apt-get install -y libappindicator1 fonts-liberation libasound2 libgconf-2-4 libnspr4 libxss1 libnss3 libexif-dev libxcb1 libxtst6 libx11-xcb1 curl gpg
+RUN apt-get install -y libappindicator1 fonts-liberation libasound2 libgconf-2-4 libnspr4 libxss1 libnss3 libexif-dev libxcb1 libxtst6 libx11-xcb1 curl gpg
 
 # Download and install Chrome
 RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub -o linux_signing_key.pub \
