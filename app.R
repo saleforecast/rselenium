@@ -7,7 +7,7 @@ httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 5000)
 
-print(binman::list_versions("chromedriver"))
+# print(binman::list_versions("chromedriver"))
 # #connect chrome driver
 # rDrv <- rsDriver(browser = "chrome", port = 4567L, chromever = "latest")
 # 
