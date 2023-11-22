@@ -3,7 +3,7 @@ FROM rocker/shiny:4
 
 # Install R packages required 
 # Change the packages list to suit your needs
-RUN R -e "install.packages(c('shiny', 'RSelenium', 'httr', 'netstat'), dependencies=TRUE)"
+RUN R -e "install.packages(c('shiny', 'RSelenium', 'wdman', 'httr', 'netstat'), dependencies=TRUE)"
 
 # Install net-tools package for netstat
 RUN apt-get update && \
