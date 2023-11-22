@@ -1,7 +1,8 @@
 library(shiny)
-library(RSelenium)
-library(httr)
 library(wdman)
+library(RSelenium)
+library(httr)    
+library(netstat)
 
 httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
