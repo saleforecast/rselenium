@@ -25,23 +25,23 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   observeEvent(input$btn, {
-    # cDrv <- chrome()
-    # eCaps <- list(chromeOptions = list(
-    #   args = c('--headless', '--disable-gpu', '--window-size=1280,800')
-    # ))
-    # remDr<- remoteDriver(browserName = "chrome", port = 4567L,
-    #                      extraCapabilities = eCaps)
+    cDrv <- chrome()
+    eCaps <- list(chromeOptions = list(
+      args = c('--headless', '--disable-gpu', '--window-size=1280,800')
+    ))
+    remDr<- remoteDriver(browserName = "chrome", port = 4567L,
+                         extraCapabilities = eCaps)
     #connect chrome driver
-    client_server <- rsDriver(
-      browser = "chrome",
-      chromever = "114.0.5735.90",
-      verbose = FALSE,
-      port = free_port(),
-    )
+    # client_server <- rsDriver(
+    #   browser = "chrome",
+    #   chromever = "114.0.5735.90",
+    #   verbose = FALSE,
+    #   port = free_port(),
+    # )
     
     # connect remote driver to client
-    remDr <- client_server$client
-    # remDr$open()
+    # remDr <- client_server$client
+    remDr$open()
     remDr$navigate("http://www.google.com")
     remDr$maxWindowSize()
     searchText <- "lakeshore hotel in gulshan"
