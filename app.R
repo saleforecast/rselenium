@@ -6,19 +6,19 @@ httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 5000)
 
-# cDrv <- chrome()
-# eCaps <- list(chromeOptions = list(
-#   args = c('--headless', '--disable-gpu', '--window-size=1280,800')
-# ))
-# remDr<- remoteDriver(browserName = "chrome", port = 4567L, 
-#                      extraCapabilities = eCaps)
-# remDr$open()
+cDrv <- chrome()
+eCaps <- list(chromeOptions = list(
+  args = c('--headless', '--disable-gpu', '--window-size=1280,800')
+))
+remDr<- remoteDriver(browserName = "chrome", port = 4567L,
+                     extraCapabilities = eCaps)
+remDr$open()
 
-#connect chrome driver
-rDrv <- rsDriver(browser = "chrome", port = 4567L, chromever = "latest")
-
-# connect remote driver to client
-remDr <- rDrv$client
+# #connect chrome driver
+# rDrv <- rsDriver(browser = "chrome", port = 4567L, chromever = "latest")
+# 
+# # connect remote driver to client
+# remDr <- rDrv$client
 
 # remDr$maxWindowSize()
 # remDr$navigate("https://google.com")
