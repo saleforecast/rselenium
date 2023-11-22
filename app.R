@@ -1,6 +1,7 @@
 library(shiny)
 library(wdman)
 library(RSelenium)
+library(netstat)
 library(httr)    
 httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
@@ -17,7 +18,7 @@ server <- function(input, output, session) {
     eCaps <- list(chromeOptions = list(
       args = c('--headless', '--disable-gpu', '--window-size=1280,800')
     ))
-    remDr<- remoteDriver(browserName = "chrome", port = 4567L, 
+    remDr<- remoteDriver(browserName = "chrome", port = free_port(), 
                          extraCapabilities = eCaps)
     remDr$open()
     remDr$navigate("http://www.google.com")

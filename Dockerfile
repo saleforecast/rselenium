@@ -5,23 +5,19 @@ FROM rocker/shiny:4
 # Change the packages list to suit your needs
 RUN R -e "install.packages(c('shiny', 'wdman', 'RSelenium', 'httr'), dependencies=TRUE)"
 
-FROM base as builder
-
-# install all packages for chromedriver: https://gist.github.com/varyonic/dea40abcf3dd891d204ef235c6e8dd79
+# Install Selenium and Chrome dependencies
 RUN apt-get update && \
-    apt-get install -y xvfb gnupg wget curl unzip --no-install-recommends && \
-    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
-    apt-get update -y && \
-    apt-get install -y google-chrome-stable && \
-    CHROMEVER=$(google-chrome --product-version | grep -o "[^\.]*\.[^\.]*\.[^\.]*") && \
-    DRIVERVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMEVER") && \
-    wget -q --continue -P /chromedriver "http://chromedriver.storage.googleapis.com/$DRIVERVER/chromedriver_linux64.zip" && \
-    unzip /chromedriver/chromedriver* -d /chromedriver
+    apt-get install -y libappindicator1 fonts-liberation libasound2 libgconf-2-4 libnspr4 libxss1 libnss3 libexif-dev libxcb1 libxtst6 libx11-xcb1 curl gpg
 
-# make the chromedriver executable and move it to default selenium path.
-RUN chmod +x /chromedriver/chromedriver
-RUN mv /chromedriver/chromedriver /usr/bin/chromedriver
+# Download and install Chrome
+RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub -o linux_signing_key.pub \
+    && cat linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/google-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y google-chrome-stable
+
+# Install Selenium Server
+RUN wget -q https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar -O /usr/bin/selenium-server-standalone.jar
 
 # Expose Shiny and Selenium ports
 EXPOSE 5000 4567
