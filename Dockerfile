@@ -5,5 +5,4 @@ RUN R -e "install.packages(c('shiny', 'RSelenium', 'wdman', 'netstat', 'httr'), 
 
 WORKDIR /home/shinyusr
 COPY app.R app.R 
-COPY .secrets .secrets
 CMD Rscript app.R
