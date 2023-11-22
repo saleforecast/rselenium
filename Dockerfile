@@ -18,6 +18,9 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Install Selenium Server
 RUN wget -q https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar -O /usr/bin/selenium-server-standalone.jar
 
+# Expose Shiny and Selenium ports
+EXPOSE 5000 4567
+
 # Set up the working directory
 WORKDIR /home/shinyusr
 
@@ -25,4 +28,4 @@ WORKDIR /home/shinyusr
 COPY app.R app.R 
 
 # Start Selenium and run Shiny app
-CMD ["/bin/bash", "-c", "java -jar /usr/bin/selenium-server-standalone.jar & Rscript app.R"]
+CMD ["/bin/bash", "-c", "java -jar /usr/bin/selenium-server-standalone.jar -port 4567 & R -e 'shiny::runApp(\"app.R\", port = 5000, host = \"0.0.0.0\")'"]
