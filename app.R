@@ -1,6 +1,8 @@
 library(shiny)
 library(wdman)
 library(RSelenium)
+library(httr)    
+httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 5000)
 
@@ -20,15 +22,14 @@ server <- function(input, output, session) {
     remDr$open()
     remDr$navigate("http://www.google.com")
     remDr$maxWindowSize()
-    searchText <- "3 star hotel in gulshan in english"
-    Sys.sleep(3)
-    
+    searchText <- "lakeshore hotel in gulshan"
     remDr$findElement("css selector", "textarea[type='search']")$sendKeysToElement(list(searchText, key = 'enter'))
+    text <- as.character(remDr$findElement("css selector", "div.zloOqf span.YhemCb")$getElementText())
     remDr$screenshot(display = TRUE)
+    output$txt <- renderText(text)
     # clean up
     remDr$close()
     cDrv$stop()
-    output$txt <- renderText("Clicked!")
   })
 }
 
