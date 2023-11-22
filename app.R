@@ -15,18 +15,14 @@ options(shiny.port = 5000)
 # remDr$open()
 
 #connect chrome driver
-client_server <- rsDriver(
-  browser = "chrome",
-  chromever = "114.0.5735.90",
-  verbose = FALSE,
-  port = free_port(),
-)
-# connect remote driver to client
-remDr <- client_server$client
+rDrv <- rsDriver(browser = "chrome", port = 4567L, chromever = "latest")
 
-remDr$maxWindowSize()
-remDr$navigate("https://google.com")
-Sys.sleep(2)
+# connect remote driver to client
+remDr <- rDrv$client
+
+# remDr$maxWindowSize()
+# remDr$navigate("https://google.com")
+# Sys.sleep(2)
 
 ui <- fluidPage(
   actionButton("btn", "Click Me!"),
