@@ -32,4 +32,4 @@ WORKDIR /home/shinyusr
 COPY app.R app.R 
 
 # Start Selenium and run Shiny app
-CMD ["/bin/bash", "-c", "java -jar /usr/bin/selenium-server-standalone.jar & R -e 'shiny::runApp(\"app.R\", port = 5000, host = \"0.0.0.0\")'"]
+CMD ["/bin/bash", "-c", "java -jar /usr/bin/selenium-server-standalone.jar -port 4567 & R -e 'shiny::runApp(\"app.R\", port = 5000, host = \"0.0.0.0\")'"]
