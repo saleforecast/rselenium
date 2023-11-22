@@ -6,13 +6,27 @@ httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 5000)
 
-cDrv <- chrome()
-eCaps <- list(chromeOptions = list(
-  args = c('--headless', '--disable-gpu', '--window-size=1280,800')
-))
-remDr<- remoteDriver(browserName = "chrome", port = 4567L, 
-                     extraCapabilities = eCaps)
-remDr$open()
+# cDrv <- chrome()
+# eCaps <- list(chromeOptions = list(
+#   args = c('--headless', '--disable-gpu', '--window-size=1280,800')
+# ))
+# remDr<- remoteDriver(browserName = "chrome", port = 4567L, 
+#                      extraCapabilities = eCaps)
+# remDr$open()
+
+#connect chrome driver
+client_server <- rsDriver(
+  browser = "chrome",
+  chromever = "114.0.5735.90",
+  verbose = FALSE,
+  port = free_port(),
+)
+# connect remote driver to client
+remDr <- client_server$client
+
+remDr$maxWindowSize()
+remDr$navigate("https://google.com")
+Sys.sleep(2)
 
 ui <- fluidPage(
   actionButton("btn", "Click Me!"),
