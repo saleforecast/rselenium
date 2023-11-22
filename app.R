@@ -6,14 +6,6 @@ httr::set_config(httr::config(http_version = 2))
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 5000)
 
-cDrv <- chrome()
-eCaps <- list(chromeOptions = list(
-  args = c('--headless', '--disable-gpu', '--window-size=1280,800')
-))
-remDr<- remoteDriver(browserName = "chrome", port = 4567L,
-                     extraCapabilities = eCaps)
-remDr$open()
-
 # #connect chrome driver
 # rDrv <- rsDriver(browser = "chrome", port = 4567L, chromever = "latest")
 # 
@@ -31,6 +23,13 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   observeEvent(input$btn, {
+    cDrv <- chrome()
+    eCaps <- list(chromeOptions = list(
+      args = c('--headless', '--disable-gpu', '--window-size=1280,800')
+    ))
+    remDr<- remoteDriver(browserName = "chrome", port = 4567L,
+                         extraCapabilities = eCaps)
+    remDr$open()
     remDr$navigate("http://www.google.com")
     remDr$maxWindowSize()
     searchText <- "lakeshore hotel in gulshan"
